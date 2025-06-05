@@ -19,11 +19,11 @@ export default async function AdminCategoriesPage() {
       actionButtonText={
         <>
           <Plus size={15} />
-          Create category
+          Utwórz kategorię
         </>
       }
       modalChildren={<CategoryDetails />}
-      newTabLink="/dashboard/admin/categories/new"
+      newTabLink="/dashboard/seller/stores/dazino/categories/new"
       filterValue="name"
       data={categories}
       searchPlaceholder="Search category name..."

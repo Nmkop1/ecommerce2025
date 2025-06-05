@@ -14,12 +14,7 @@ export const CategoryFormSchema = z.object({
       message:
         "Only letters, numbers, and spaces are allowed in the category name.",
     }),
-  image: z
-    .object({
-      url: z.string(),
-    })
-    .array()
-    .length(1, "Choose a category image."),
+ 
   url: z
     .string({
       required_error: "Category url is required",
@@ -47,10 +42,7 @@ export const SubCategoryFormSchema = z.object({
       message:
         "Only letters, numbers, and spaces are allowed in the subCategory name.",
     }),
-  image: z
-    .object({ url: z.string() })
-    .array()
-    .length(1, "Choose only one subCategory image"),
+   
   url: z
     .string({
       required_error: "SubCategory url is required",
@@ -185,7 +177,7 @@ export const ProductFormSchema = z.object({
       required_error: "Product sub-category ID is mandatory.",
       invalid_type_error: "Product sub-category ID must be a valid UUID.",
     })
-    .uuid(),
+    .uuid().optional(),
   offerTagId: z
     .string({
       required_error: "Product offer tag ID is mandatory.",

@@ -16,6 +16,7 @@ export default async function ProductVariantPage({
   const offerTags = await getAllOfferTags();
   const { productId, variantId, storeUrl } = params;
   const productDetails = await getProductVariant(productId, variantId);
+ 
   if (!productDetails) return;
   const newDetails = {
     ...ProductDetails,

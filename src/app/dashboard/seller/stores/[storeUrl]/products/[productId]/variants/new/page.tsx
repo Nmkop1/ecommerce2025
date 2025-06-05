@@ -15,7 +15,8 @@ export default async function SellerNewProductVariantPage({
   const categories = await getAllCategories();
   const offerTags = await getAllOfferTags();
   const product = await getProductMainInfo(params.productId);
-  if (!product) return null;
+ 
+ 
   const countries = await db.country.findMany({
     orderBy: {
       name: "asc",

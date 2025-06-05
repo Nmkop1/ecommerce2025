@@ -119,8 +119,8 @@ const handleProductCreate = async (
     slug: productSlug,
     store: { connect: { id: storeId } },
     category: { connect: { id: product.categoryId } },
-    subCategory: { connect: { id: product.subCategoryId } },
-    offerTag: { connect: { id: product.offerTagId } },
+    subCategory: product.subCategoryId ? { connect: { id: product.subCategoryId   } } : undefined,
+    offerTag: product.offerTagId ? { connect: { id: product.offerTagId } } : undefined,
     brand: product.brand,
     specs: {
       create: product.product_specs.map((spec) => ({
@@ -316,12 +316,12 @@ export const getProductVariant = async (
   };
 };
 
-// Function: getProductMainInfo
-// Description: Retrieves the main information of a specific product from the database.
-// Access Level: Public
-// Parameters:
-//   - productId: The ID of the product to be retrieved.
-// Returns: An object containing the main information of the product or null if the product is not found.
+// Funkcja: getProductMainInfo
+// Opis: Pobiera główne informacje o określonym produkcie z bazy danych.
+// Poziom dostępu: Publiczny
+// Parametry:
+// - productId: Identyfikator produktu, który ma zostać pobrany.
+// Zwraca: Obiekt zawierający główne informacje o produkcie lub null, jeśli produkt nie został znaleziony.
 export const getProductMainInfo = async (productId: string) => {
   // Retrieve the product from the database
   const product = await db.product.findUnique({
@@ -335,14 +335,14 @@ export const getProductMainInfo = async (productId: string) => {
   });
   if (!product) return null;
 
-  // Return the main information of the product
+// Zwróć główne informacje o produkcie
   return {
     productId: product.id,
     name: product.name,
     description: product.description,
     brand: product.brand,
     categoryId: product.categoryId,
-    subCategoryId: product.subCategoryId,
+    subCategoryId: product.subCategoryId || undefined,
     offerTagId: product.offerTagId || undefined,
     storeId: product.storeId,
     shippingFeeMethod: product.shippingFeeMethod,
@@ -373,9 +373,10 @@ export const getAllStoreProducts = async (storeUrl: string) => {
     where: {
       storeId: store.id,
     },
+    
     include: {
       category: true,
-      subCategory: true,
+      subCategory:  true,
       offerTag: true,
       variants: {
         include: {

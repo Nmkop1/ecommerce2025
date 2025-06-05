@@ -31,8 +31,8 @@ export default function CategoriesMenu({
   return (
     <div
       className="relative w-10 h-10 xl:w-[256px] z-50"
-      // onMouseEnter={() => toggleMenu(true)}
-      // onMouseLeave={() => toggleMenu(false)}
+       onMouseEnter={() => toggleMenu(true)}
+        onMouseLeave={() => toggleMenu(false)}
     >
       {/* Trigger and Dropdown Container */}
       <div className="relative">
@@ -86,13 +86,7 @@ export default function CategoriesMenu({
               className="text-[#222]"
             >
               <li className="relative flex items-center m-0 p-3 pl-6 hover:bg-white">
-                <Image
-                  src={category.image}
-                  alt={category.name}
-                  width={100}
-                  height={100}
-                  className="w-[18px] h-[18px]"
-                />
+                 
                 <span className="text-sm font-normal ml-2 overflow-hidden line-clamp-2 break-words text-main-primary">
                   {category.name}
                 </span>

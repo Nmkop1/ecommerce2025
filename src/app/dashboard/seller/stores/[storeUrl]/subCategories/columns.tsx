@@ -59,25 +59,8 @@ import { SubCategoryWithCategoryType } from "@/lib/types";
 
 export const columns: ColumnDef<SubCategoryWithCategoryType>[] = [
   {
-    accessorKey: "image",
-    header: "",
-    cell: ({ row }) => {
-      return (
-        <div className="relative h-44 min-w-64 rounded-xl overflow-hidden">
-          <Image
-            src={row.original.image}
-            alt=""
-            width={1000}
-            height={1000}
-            className="w-40 h-40 rounded-full object-cover shadow-2xl"
-          />
-        </div>
-      );
-    },
-  },
-  {
     accessorKey: "name",
-    header: "Name",
+    header: "Nazwa",
     cell: ({ row }) => {
       return (
         <span className="font-extrabold text-lg capitalize">
@@ -96,14 +79,14 @@ export const columns: ColumnDef<SubCategoryWithCategoryType>[] = [
   },
   {
     accessorKey: "category",
-    header: "Category",
+    header: "Kategoria",
     cell: ({ row }) => {
       return <span>{row.original.category.name}</span>;
     },
   },
   {
     accessorKey: "featured",
-    header: "Featured",
+    header: "Wyróżniony",
     cell: ({ row }) => {
       return (
         <span className="text-muted-foreground flex justify-center">
@@ -181,12 +164,12 @@ const CellActions: React.FC<CellActionsProps> = ({ rowData }) => {
             }}
           >
             <Edit size={15} />
-            Edit Details
+            Edycja
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <AlertDialogTrigger asChild>
             <DropdownMenuItem className="flex gap-2" onClick={() => {}}>
-              <Trash size={15} /> Delete subCategory
+              <Trash size={15} /> Usuń
             </DropdownMenuItem>
           </AlertDialogTrigger>
         </DropdownMenuContent>

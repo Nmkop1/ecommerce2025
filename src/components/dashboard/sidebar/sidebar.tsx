@@ -18,25 +18,23 @@ import {
 
 // Prisma models
 import { Store } from "@prisma/client";
-import StoreSwitcher from "./store-switcher";
+import Link from "next/link";
+import { Button } from "@/components/store/ui/button";
 
 interface SidebarProps {
   isAdmin?: boolean;
   stores?: Store[];
 }
 
-const Sidebar: FC<SidebarProps> = async ({ isAdmin, stores }) => {
-  const user = await currentUser();
+const Sidebar: FC<SidebarProps> = async ( ) => {
+ 
   return (
-    <div className="w-[300px] border-r h-screen p-4 flex flex-col fixed top-0 left-0 bottom-0">
-  
-    
-  
-     
-        <SidebarNavAdmin menuLinks={adminDashboardSidebarOptions} />
-     
-        <SidebarNavSeller menuLinks={SellerDashboardSidebarOptions} />
-   
+    <div className="w-[300px] border-r h-screen p-4 flex flex-col fixed top-0 left-0 bottom-0">  
+       <Button variant="orange-gradient">
+            <Link href="/">Sklep</Link>
+          </Button>    
+         {/* <SidebarNavAdmin menuLinks={adminDashboardSidebarOptions} />      */}
+        <SidebarNavSeller menuLinks={SellerDashboardSidebarOptions} />   
     </div>
   );
 };

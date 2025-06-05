@@ -72,7 +72,7 @@ const SubCategoryDetails: FC<SubCategoryDetailsProps> = ({
     defaultValues: {
       // Setting default form values from data (if available)
       name: data?.name,
-      image: data?.image ? [{ url: data?.image }] : [],
+  
       url: data?.url,
       featured: data?.featured,
       categoryId: data?.categoryId,
@@ -89,7 +89,7 @@ const SubCategoryDetails: FC<SubCategoryDetailsProps> = ({
     if (data) {
       form.reset({
         name: data?.name,
-        image: [{ url: data?.image }],
+ 
         url: data?.url,
         featured: data?.featured,
         categoryId: data.categoryId,
@@ -106,7 +106,7 @@ const SubCategoryDetails: FC<SubCategoryDetailsProps> = ({
       const response = await upsertSubCategory({
         id: data?.id ? data.id : v4(),
         name: values.name,
-        image: values.image[0].url,
+    
         url: values.url,
         featured: values.featured,
         categoryId: values.categoryId,
@@ -125,7 +125,7 @@ const SubCategoryDetails: FC<SubCategoryDetailsProps> = ({
       if (data?.id) {
         router.refresh();
       } else {
-        router.push("/dashboard/admin/subCategories");
+        router.push("/dashboard/seller/stores/dazino/subCategories");
       }
     } catch (error: any) {
       // Handling form submission errors
@@ -154,30 +154,7 @@ const SubCategoryDetails: FC<SubCategoryDetailsProps> = ({
               onSubmit={form.handleSubmit(handleSubmit)}
               className="space-y-4"
             >
-              <FormField
-                control={form.control}
-                name="image"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <ImageUpload
-                        type="profile"
-                        value={field.value.map((image) => image.url)}
-                        disabled={isLoading}
-                        onChange={(url) => field.onChange([{ url }])}
-                        onRemove={(url) =>
-                          field.onChange([
-                            ...field.value.filter(
-                              (current) => current.url !== url
-                            ),
-                          ])
-                        }
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            
               <FormField
                 disabled={isLoading}
                 control={form.control}

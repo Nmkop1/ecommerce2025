@@ -72,7 +72,7 @@ export type ProductWithVariantType = {
   variantImage: string;
   categoryId: string;
   offerTagId: string;
-  subCategoryId: string;
+  subCategoryId?: string  ;
   isSale: boolean;
   saleEndDate?: string;
   brand: string;

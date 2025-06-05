@@ -36,52 +36,52 @@ export default async function HomePage() {
       <Header />
       <CategoriesHeader />
       <div className="relative w-full">
-        <Sideline />
+        {/* <Sideline /> */}
         <div className="relative w-[calc(100%-40px)] h-full bg-[#e3e3e3]">
           <div className="max-w-[1600px] mx-auto min-h-screen p-4">
             {/* Main */}
             <div className="w-full grid gap-2 min-[1170px]:grid-cols-[1fr_350px] min-[1465px]:grid-cols-[200px_1fr_350px]">
               {/* Left */}
-              <div
+              {/* <div
                 className="cursor-pointer hidden min-[1465px]:block bg-cover bg-no-repeat rounded-md"
                 style={{
                   backgroundImage:
                     "url(/assets/images/ads/winter-sports-clothing.jpg)",
                 }}
-              />
+              /> */}
               {/* Middle */}
-              <div className="space-y-2 h-fit">
+              {/* <div className="space-y-2 h-fit">
                 {/* Main swiper */}
-                <HomeMainSwiper />
+                {/* <HomeMainSwiper /> */}
                 {/* Featured card */}
-                <Featured
+                {/* <Featured
                   products={products_featured.filter(
                     (product): product is SimpleProduct =>
                       "variantSlug" in product
                   )}
                 />
-              </div>
+              </div>   */}
               {/* Right */}
-              <div className="h-full">
+              {/* <div className="h-full">
                 <HomeUserCard
                   products={products_user_card.filter(
                     (product): product is SimpleProduct =>
                       "variantSlug" in product
                   )}
                 />
-              </div>
+              </div> */}
             </div>
             {/* Animated deals */}
-            <div className="mt-2 hidden min-[915px]:block">
+            {/* <div className="mt-2 hidden min-[915px]:block">
               <AnimatedDeals
                 products={products_best_deals.filter(
                   (product): product is SimpleProduct =>
                     "variantSlug" in product
                 )}
               />
-            </div>
+            </div> */}
             <div className="mt-10 space-y-10">
-              <div className="bg-white rounded-md">
+              {/* <div className="bg-white rounded-md">
                 <MainSwiper products={products_super_deals} type="curved">
                   <div className="mb-4 pl-4 flex items-center justify-between">
                     <Image
@@ -92,9 +92,9 @@ export default async function HomePage() {
                     />
                   </div>
                 </MainSwiper>
-              </div>
+              </div> */}
 
-              <FeaturedCategories />
+              {/* <FeaturedCategories /> */}
 
               <div>
                 {/* Header */}

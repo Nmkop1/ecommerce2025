@@ -31,7 +31,7 @@ export default function Header() {
         <div className="flex lg:w-full lg:flex-1 flex-col lg:flex-row gap-3 py-3">
           <div className="flex items-center justify-between">
             <Link href="/">
-              <h1 className="font-extrabold text-3xl font-mono">GoShop</h1>
+              <h1 className="font-extrabold text-3xl font-mono">Sklep</h1>
             </Link>
             <div className="flex lg:hidden">
               <UserMenu />
@@ -41,10 +41,10 @@ export default function Header() {
           <Search />
         </div>
         <div className="hidden lg:flex w-full lg:w-fit lg:mt-2 justify-end mt-1.5 pl-6">
-          <div className="lg:flex">
+          {/* <div className="lg:flex">
             <DownloadApp />
-          </div>
-          <CountryLanguageCurrencySelector userCountry={userCountry} />
+          </div> */}
+          {/* <CountryLanguageCurrencySelector userCountry={userCountry} /> */}
           <UserMenu />
           <Cart />
         </div>

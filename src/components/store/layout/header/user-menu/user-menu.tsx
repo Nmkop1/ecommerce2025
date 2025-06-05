@@ -11,6 +11,7 @@ import Link from "next/link";
 export default async function UserMenu() {
   // Get the current user
   const user = await currentUser();
+  const role = user?.privateMetadata.role;
   return (
     <div className="relative group px-2">
       {/* Trigger */}
@@ -29,11 +30,9 @@ export default async function UserMenu() {
               <UserIcon />
             </span>
             <div className="ml-1">
-              <span className="block text-xs text-white leading-3">
-                Welcome
-              </span>
+              <span className="block text-xs text-white leading-3">Witamy</span>
               <b className="font-bold text-xs text-white leading-4">
-                <span>Sign in / Register</span>
+                <span>Logowanie / Rejestracja</span>
                 <span className="text-white scale-[60%] align-middle inline-block">
                   <ChevronDown />
                 </span>
@@ -65,13 +64,13 @@ export default async function UserMenu() {
                 ) : (
                   <div className="space-y-1">
                     <Link href="/sign-in">
-                      <Button>Sign in</Button>
+                      <Button>Logowanie</Button>
                     </Link>
                     <Link
                       href="/sign-up"
                       className="h-10 text-sm hover:underline text-main-primary flex items-center justify-center cursor-pointer"
                     >
-                      Register
+                      Rejestracja
                     </Link>
                   </div>
                 )}
@@ -81,6 +80,41 @@ export default async function UserMenu() {
                   </p>
                 )}
                 <Separator />
+              </div>
+              {/* Action btn */}
+              <div className="w-full px-2">
+                {user ? (
+                  <div className="w-full">
+                    {role === "ADMIN" ? (
+                      <Button variant="orange-gradient" className="rounded-md">
+                        <Link href={"/dashboard/admin"}>
+                          Switch to Admin Dashboard
+                        </Link>
+                      </Button>
+                    ) : role === "SELLER" ? (
+                      <Button variant="orange-gradient" className="rounded-md">
+                        <Link href={"/dashboard/seller"}>
+                          Switch to Seller Dashboard
+                        </Link>
+                      </Button>
+                    ) : (
+                      <Button variant="orange-gradient" className="rounded-md">
+                        <Link href={"/seller/apply"}>
+                          Złóż wniosek o zostanie sprzedawcą
+                        </Link>
+                      </Button>
+                    )}
+                  </div>
+                ) : (
+                  <div className="w-full flex justify-between gap-x-4">
+                    <Button variant="orange-gradient">
+                      <Link href="/sign-up">Dołącz</Link>
+                    </Button>
+                    <Button variant="gray">
+                      <Link href="/sign-in">Sign in</Link>
+                    </Button>
+                  </div>
+                )}
               </div>
               {/* Links */}
               <div className="max-w-[calc(100vh-180px)] text-main-secondary overflow-y-auto overflow-x-hidden pt-0 px-2 pb-4">

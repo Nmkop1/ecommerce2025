@@ -67,7 +67,7 @@ export const upsertOfferTag = async (offerTag: OfferTag) => {
     if (!user) throw new Error("Unauthenticated.");
 
     // Verify admin permission
-    if (user.privateMetadata.role !== "ADMIN")
+    if (user.privateMetadata.role !== "SELLER")
       throw new Error(
         "Unauthorized Access: Admin Privileges Required for Entry."
       );
@@ -153,7 +153,7 @@ export const deleteOfferTag = async (offerTagId: string) => {
     if (!user) throw new Error("Unauthenticated.");
 
     // Verify admin permission
-    if (user.privateMetadata.role !== "ADMIN")
+    if (user.privateMetadata.role !== "SELLER")
       throw new Error(
         "Unauthorized Access: Admin Privileges Required for Entry."
       );

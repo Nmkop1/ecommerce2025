@@ -24,7 +24,7 @@ export const upsertCategory = async (category: Category) => {
     if (!user) throw new Error("Unauthenticated.");
 
     // Verify admin permission
-    if (user.privateMetadata.role !== "ADMIN")
+    if (user.privateMetadata.role !== "SELLER")
       throw new Error(
         "Unauthorized Access: Admin Privileges Required for Entry."
       );
@@ -52,9 +52,9 @@ export const upsertCategory = async (category: Category) => {
     if (existingCategory) {
       let errorMessage = "";
       if (existingCategory.name === category.name) {
-        errorMessage = "A category with the same name already exists";
+        errorMessage = "Kategoria o tej samej nazwie już istnieje";
       } else if (existingCategory.url === category.url) {
-        errorMessage = "A category with the same URL already exists";
+        errorMessage = "Kategoria o tym samym adresie URL już istnieje";
       }
       throw new Error(errorMessage);
     }
@@ -166,7 +166,7 @@ export const deleteCategory = async (categoryId: string) => {
   if (!user) throw new Error("Unauthenticated.");
 
   // Verify admin permission
-  if (user.privateMetadata.role !== "ADMIN")
+  if (user.privateMetadata.role !== "SELLER")
     throw new Error(
       "Unauthorized Access: Admin Privileges Required for Entry."
     );

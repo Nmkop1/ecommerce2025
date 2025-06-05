@@ -14,9 +14,9 @@ export default async function DashboardPage() {
   }
 
   // If user role is "ADMIN", redirect to the admin dashboard
-  if (user.privateMetadata.role === "ADMIN") {
-    redirect("/dashboard/admin");
-  }
+  // if (user.privateMetadata.role === "ADMIN") {
+  //   redirect("/dashboard/admin");
+  // }
 
   // If user role is "SELLER", redirect to the seller dashboard
   if (user.privateMetadata.role === "SELLER") {

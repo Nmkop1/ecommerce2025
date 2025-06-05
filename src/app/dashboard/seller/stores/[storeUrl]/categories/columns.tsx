@@ -54,26 +54,26 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Category } from "@prisma/client";
 
 export const columns: ColumnDef<Category>[] = [
-  {
-    accessorKey: "image",
-    header: "",
-    cell: ({ row }) => {
-      return (
-        <div className="relative h-44 min-w-64 rounded-xl overflow-hidden">
-          <Image
-            src={row.original.image}
-            alt=""
-            width={1000}
-            height={1000}
-            className="w-40 h-40 rounded-full object-cover shadow-2xl"
-          />
-        </div>
-      );
-    },
-  },
+  // {
+  //   accessorKey: "image",
+  //   header: "",
+  //   cell: ({ row }) => {
+  //     return (
+  //       <div className="relative h-44 min-w-64 rounded-xl overflow-hidden">
+  //         <Image
+  //           src={row.original.image}
+  //           alt=""
+  //           width={1000}
+  //           height={1000}
+  //           className="w-40 h-40 rounded-full object-cover shadow-2xl"
+  //         />
+  //       </div>
+  //     );
+  //   },
+  // },
   {
     accessorKey: "name",
-    header: "Name",
+    header: "Nazwa kategorii",
     cell: ({ row }) => {
       return (
         <span className="font-extrabold text-lg capitalize">
@@ -92,7 +92,7 @@ export const columns: ColumnDef<Category>[] = [
   },
   {
     accessorKey: "featured",
-    header: "Featured",
+    header: "Wyróżniony",
     cell: ({ row }) => {
       return (
         <span className="text-muted-foreground flex justify-center">
@@ -160,12 +160,12 @@ const CellActions: React.FC<CellActionsProps> = ({ rowData }) => {
             }}
           >
             <Edit size={15} />
-            Edit Details
+            Edycja
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <AlertDialogTrigger asChild>
             <DropdownMenuItem className="flex gap-2" onClick={() => {}}>
-              <Trash size={15} /> Delete category
+              <Trash size={15} /> Usuń
             </DropdownMenuItem>
           </AlertDialogTrigger>
         </DropdownMenuContent>
@@ -173,11 +173,11 @@ const CellActions: React.FC<CellActionsProps> = ({ rowData }) => {
       <AlertDialogContent className="max-w-lg">
         <AlertDialogHeader>
           <AlertDialogTitle className="text-left">
-            Are you absolutely sure?
+            Czy jesteś absolutnie pewien?
           </AlertDialogTitle>
           <AlertDialogDescription className="text-left">
-            This action cannot be undone. This will permanently delete the
-            category and related data.
+            Tej czynności nie można cofnąć. Spowoduje to trwałe usunięcie
+            kategorii.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="flex items-center">
@@ -197,7 +197,7 @@ const CellActions: React.FC<CellActionsProps> = ({ rowData }) => {
               setClose();
             }}
           >
-            Delete
+            Usuń
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

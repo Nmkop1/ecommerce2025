@@ -1,48 +1,58 @@
 import { DashboardSidebarMenuInterface } from "@/lib/types";
 
 export const adminDashboardSidebarOptions: DashboardSidebarMenuInterface[] = [
-  {
-    label: "Dashboard",
-    icon: "dashboard",
-    link: "/dashboard/admin",
-  },
-  {
-    label: "Stores",
-    icon: "store",
-    link: "/dashboard/admin/stores",
-  },
+  // {
+  //   label: "Dashboard",
+  //   icon: "dashboard",
+  //   link: "/dashboard/admin",
+  // },
+  // {
+  //   label: "Stores",
+  //   icon: "store",
+  //   link: "/dashboard/admin/stores",
+  // },
   {
     label: "Orders",
     icon: "box-list",
-    link: "/dashboard/admin/orders",
+    link: "orders",
   },
   {
     label: "Categories",
     icon: "categories",
-    link: "/dashboard/admin/categories",
+    link: "categories",
   },
   {
     label: "Sub-Categories",
     icon: "categories",
-    link: "/dashboard/admin/subCategories",
+    link: "subCategories",
   },
   {
     label: "Offer Tags",
     icon: "offer",
-    link: "/dashboard/admin/offer-tags",
+    link: "offer-tags",
   },
   {
     label: "Coupons",
     icon: "coupon",
-    link: "/dashboard/admin/coupons",
+    link: "coupons",
   },
 ];
 
 export const SellerDashboardSidebarOptions: DashboardSidebarMenuInterface[] = [
   {
-    label: "Dashboard",
-    icon: "dashboard",
-    link: "",
+    label: "Categories",
+    icon: "categories",
+    link: "categories",
+  },
+  {
+    label: "Sub-Categories",
+    icon: "categories",
+    link: "subCategories",
+  },
+  {
+    label: "Offer Tags",
+    icon: "offer",
+    link: "offer-tags",
   },
   {
     label: "Products",

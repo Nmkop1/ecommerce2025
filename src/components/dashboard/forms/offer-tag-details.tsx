@@ -98,7 +98,7 @@ const OfferTagDetails: FC<OfferTagDetailsProps> = ({ data }) => {
       if (data?.id) {
         router.refresh();
       } else {
-        router.push("/dashboard/admin/offer-tags");
+        router.push("/dashboard/seller/stores/dazino/offer-tags");
       }
     } catch (error: any) {
       // Handling form submission errors
@@ -128,7 +128,7 @@ const OfferTagDetails: FC<OfferTagDetailsProps> = ({ data }) => {
               className="space-y-4"
             >
               <FormField
-                disabled={isLoading}
+                // disabled={isLoading}
                 control={form.control}
                 name="name"
                 render={({ field }) => (
@@ -142,7 +142,7 @@ const OfferTagDetails: FC<OfferTagDetailsProps> = ({ data }) => {
                 )}
               />
               <FormField
-                disabled={isLoading}
+                // disabled={isLoading}
                 control={form.control}
                 name="url"
                 render={({ field }) => (

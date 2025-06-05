@@ -115,7 +115,7 @@ const ProductDetails: FC<ProductDetailsProps> = ({
   // Initializing necessary hooks
   const { toast } = useToast(); // Hook for displaying toast messages
   const router = useRouter(); // Hook for routing
-
+ 
   // Is new variant page
   const isNewVariantPage = data?.productId && !data?.variantId;
 

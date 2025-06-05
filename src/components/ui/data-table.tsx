@@ -104,13 +104,13 @@ export default function DataTable<TData, TValue>({
               {actionButtonText}
             </Button>
           )}
-          {newTabLink && (
+           {newTabLink && (
             <Link href={newTabLink}>
               <Button variant="outline">
-                <FilePlus2 className="me-1" /> Create in new page
+                <FilePlus2 className="me-1" /> Utwórz
               </Button>
             </Link>
-          )}
+          )}  
         </div>
       </div>
 

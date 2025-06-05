@@ -38,7 +38,7 @@ model User {
 model Category {
   id       String  @id @default(uuid())
   name     String
-  image    String
+  // image    String?
   url      String  @unique
   featured Boolean @default(false)
 
@@ -53,7 +53,7 @@ model Category {
 model SubCategory {
   id       String  @id @default(uuid())
   name     String
-  image    String
+ 
   url      String  @unique
   featured Boolean @default(false)
 
@@ -148,8 +148,8 @@ model Product {
   categoryId String
   category   Category @relation("CategoryToProduct", fields: [categoryId], references: [id])
 
-  subCategoryId String
-  subCategory   SubCategory @relation("SubCategoryToProduct", fields: [subCategoryId], references: [id])
+  subCategoryId String?
+  subCategory   SubCategory? @relation("SubCategoryToProduct", fields: [subCategoryId], references: [id])
 
   offerTagId String?
   offerTag   OfferTag? @relation("OfferTagToProduct", fields: [offerTagId], references: [id])

@@ -62,9 +62,9 @@ export const columns: ColumnDef<StoreProductType>[] = [
                   <Image
                     src={variant.images[0].url}
                     alt={`${variant.variantName} image`}
-                    width={1000}
-                    height={1000}
-                    className="max-w-72 h-72 rounded-md object-cover shadow-sm"
+                    width={300}
+                    height={300}
+                    className="max-w-16 h-16 rounded-md object-cover shadow-sm"
                   />
                   <Link
                     href={`/dashboard/seller/stores/${row.original.store.url}/products/${row.original.id}/variants/${variant.id}`}
@@ -122,7 +122,8 @@ export const columns: ColumnDef<StoreProductType>[] = [
     accessorKey: "subCategory",
     header: "SubCategory",
     cell: ({ row }) => {
-      return <span>{row.original.subCategory.name}</span>;
+      const subCategory = row.original.subCategory;
+      return <span>{subCategory ? subCategory.name : "-"}</span>;
     },
   },
   {
