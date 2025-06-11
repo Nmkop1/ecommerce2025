@@ -11,6 +11,7 @@
   "dependencies": {
     "@clerk/nextjs": "^6.9.6",
     "@elastic/elasticsearch": "^8.16.2",
+    "@hookform/error-message": "^2.0.1",
     "@hookform/resolvers": "^3.6.0",
     "@paypal/react-paypal-js": "^8.7.0",
     "@prisma/client": "^6.9.0",

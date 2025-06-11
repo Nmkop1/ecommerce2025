@@ -17,7 +17,7 @@ import {
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
+import { ErrorMessage } from "@hookform/error-message";
 // Schema
 import { ProductFormSchema } from "@/lib/schemas";
 
@@ -67,7 +67,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
+import { Textarea } from "@/components/ui/textarea";
 // React date time picker
 import DateTimePicker from "react-datetime-picker";
 import "react-datetime-picker/dist/DateTimePicker.css";
@@ -115,7 +115,7 @@ const ProductDetails: FC<ProductDetailsProps> = ({
   // Initializing necessary hooks
   const { toast } = useToast(); // Hook for displaying toast messages
   const router = useRouter(); // Hook for routing
- 
+
   // Is new variant page
   const isNewVariantPage = data?.productId && !data?.variantId;
 
@@ -165,17 +165,18 @@ const ProductDetails: FC<ProductDetailsProps> = ({
   >(data?.questions || [{ question: "", answer: "" }]);
 
   // Form hook for managing form state and validation
+
   const form = useForm<z.infer<typeof ProductFormSchema>>({
     mode: "onChange", // Form validation mode
-    resolver: zodResolver(ProductFormSchema), // Resolver for form validation
+    resolver: zodResolver(ProductFormSchema), // Rozwiązywacz do walidacji formularzy
     defaultValues: {
-      // Setting default form values from data (if available)
+      // Ustawianie domyślnych wartości formularza z danych (jeśli są dostępne)
       name: data?.name,
       description: data?.description,
       variantName: data?.variantName,
       variantDescription: data?.variantDescription,
       images: data?.images || [],
-      variantImage: data?.variantImage ? [{ url: data.variantImage }] : [],
+
       categoryId: data?.categoryId,
       offerTagId: data?.offerTagId,
       subCategoryId: data?.subCategoryId,
@@ -188,7 +189,7 @@ const ProductDetails: FC<ProductDetailsProps> = ({
       keywords: data?.keywords,
       questions: data?.questions,
       isSale: data?.isSale || false,
-      weight: data?.weight,
+
       saleEndDate:
         data?.saleEndDate || format(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
       freeShippingForAllCountries: data?.freeShippingForAllCountries,
@@ -225,49 +226,69 @@ const ProductDetails: FC<ProductDetailsProps> = ({
   // Loading status based on form submission
   const isLoading = form.formState.isSubmitting;
 
-  // Reset form values when data changes
-  useEffect(() => {
-    if (data) {
-      form.reset({
-        ...data,
-        variantImage: data.variantImage ? [{ url: data.variantImage }] : [],
-      });
-    }
-  }, [data, form]);
-
+  console.log(form.getValues());
   // Submit handler for form submission
   const handleSubmit = async (values: z.infer<typeof ProductFormSchema>) => {
     try {
-      // Upserting product data
-      const response = await upsertProduct(
+      const response = upsertProduct(
         {
           productId: data?.productId ? data.productId : v4(),
           variantId: data?.variantId ? data.variantId : v4(),
           name: values.name,
           description: values.description,
-          variantName: values.variantName,
+          variantName: values.variantName ? values.variantName : "",
           variantDescription: values.variantDescription || "",
           images: values.images,
-          variantImage: values.variantImage[0].url,
+
           categoryId: values.categoryId,
           subCategoryId: values.subCategoryId,
           offerTagId: values.offerTagId || "",
           isSale: values.isSale,
           saleEndDate: values.saleEndDate,
           brand: values.brand,
-          sku: values.sku,
-          weight: values.weight,
+          sku: values.sku || "",
+
           colors: values.colors,
           sizes: values.sizes,
-          product_specs: values.product_specs,
-          variant_specs: values.variant_specs,
+          product_specs: values.product_specs ? values.product_specs : [],
+          variant_specs: values.variant_specs ? values.variant_specs :[],
           keywords: values.keywords,
-          questions: values.questions,
-          shippingFeeMethod: values.shippingFeeMethod,
+          questions: values.questions ? values.questions :[],
+          shippingFeeMethod: "FIXED",
           freeShippingForAllCountries: values.freeShippingForAllCountries,
           freeShippingCountriesIds: values.freeShippingCountriesIds || [],
           createdAt: new Date(),
           updatedAt: new Date(),
+          // productId: data?.productId ? data.productId : v4(),
+          // variantId: data?.variantId ? data.variantId : v4(),
+          // name: values.name,
+          // description: values.description,
+          // variantName: isNewVariantPage ? values.variantName : values.name,
+          // variantDescription: values.variantDescription || "",
+          // images: values.images,
+          // variantImage: isNewVariantPage
+          //   ? values.variantImage[0].url
+          //   : values.images[0].url,
+
+          // categoryId: values.categoryId,
+          // subCategoryId: values.subCategoryId,
+          // offerTagId: values.offerTagId || "",
+          // isSale: values.isSale,
+          // saleEndDate: values.saleEndDate,
+          // brand: values.brand || "",
+          // sku: values.sku || "",
+          // weight: values.weight || 1,
+          // colors: values.colors || [],
+          // sizes: values.sizes,
+          // product_specs: values.product_specs || [],
+          // variant_specs: values.variant_specs || [],
+          // keywords: values.keywords,
+          // questions: values.questions || [],
+          // shippingFeeMethod: values.shippingFeeMethod,
+          // freeShippingForAllCountries: values.freeShippingForAllCountries,
+          // freeShippingCountriesIds: values.freeShippingCountriesIds || [],
+          // createdAt: new Date(),
+          // updatedAt: new Date(),
         },
         storeUrl
       );
@@ -287,7 +308,7 @@ const ProductDetails: FC<ProductDetailsProps> = ({
         router.push(`/dashboard/seller/stores/${storeUrl}/products`);
       }
     } catch (error: any) {
-      // Handling form submission errors
+      console.error("Error submitting form:", error);
       toast({
         variant: "destructive",
         title: "Oops!",
@@ -364,6 +385,7 @@ const ProductDetails: FC<ProductDetailsProps> = ({
               {/* Images - colors */}
               <div className="flex flex-col gap-y-6 xl:flex-row">
                 {/* Images */}
+
                 <FormField
                   control={form.control}
                   name="images"
@@ -371,18 +393,20 @@ const ProductDetails: FC<ProductDetailsProps> = ({
                     <FormItem className="w-full xl:border-r">
                       <FormControl>
                         <>
-                          <ImagesPreviewGrid
-                            images={form.getValues().images}
-                            onRemove={(url) => {
-                              const updatedImages = images.filter(
-                                (img) => img.url !== url
-                              );
-                              setImages(updatedImages);
-                              field.onChange(updatedImages);
-                            }}
-                            colors={colors}
-                            setColors={setColors}
-                          />
+                          {!isNewVariantPage && (
+                            <ImagesPreviewGrid
+                              images={form.getValues().images}
+                              onRemove={(url) => {
+                                const updatedImages = images.filter(
+                                  (img) => img.url !== url
+                                );
+                                setImages(updatedImages);
+                                field.onChange(updatedImages);
+                              }}
+                              colors={colors}
+                              setColors={setColors}
+                            />
+                          )}
                           <FormMessage className="!mt-4" />
                           <ImageUpload
                             dontShowPreview
@@ -409,6 +433,7 @@ const ProductDetails: FC<ProductDetailsProps> = ({
                     </FormItem>
                   )}
                 />
+
                 {/* Colors */}
                 <div className="w-full flex flex-col gap-y-3 xl:pl-5">
                   <ClickToAddInputs
@@ -430,7 +455,6 @@ const ProductDetails: FC<ProductDetailsProps> = ({
                 <div className="flex flex-col lg:flex-row gap-4">
                   {!isNewVariantPage && (
                     <FormField
-          
                       control={form.control}
                       name="name"
                       render={({ field }) => (
@@ -444,7 +468,6 @@ const ProductDetails: FC<ProductDetailsProps> = ({
                     />
                   )}
                   <FormField
-              
                     control={form.control}
                     name="variantName"
                     render={({ field }) => (
@@ -459,6 +482,7 @@ const ProductDetails: FC<ProductDetailsProps> = ({
                 </div>
               </InputFieldset>
               {/* Product and variant description editors (tabs) */}
+
               <InputFieldset
                 label="Description"
                 description={
@@ -483,19 +507,15 @@ const ProductDetails: FC<ProductDetailsProps> = ({
                   )}
                   <TabsContent value="product">
                     <FormField
-             
                       control={form.control}
                       name="description"
                       render={({ field }) => (
-                        <FormItem className="flex-1">
+                        <FormItem>
                           <FormControl>
-                            <JoditEditor
-                              ref={productDescEditor}
-                              config={config}
-                              value={form.getValues().description}
-                              onChange={(content) => {
-                                form.setValue("description", content);
-                              }}
+                            <Textarea
+                              {...field}
+                              rows={5}
+                              className="resize-none"
                             />
                           </FormControl>
                           <FormMessage />
@@ -505,19 +525,15 @@ const ProductDetails: FC<ProductDetailsProps> = ({
                   </TabsContent>
                   <TabsContent value="variant">
                     <FormField
-                  
                       control={form.control}
                       name="variantDescription"
                       render={({ field }) => (
-                        <FormItem className="flex-1">
+                        <FormItem>
                           <FormControl>
-                            <JoditEditor
-                              ref={variantDescEditor}
-                              config={config}
-                              value={form.getValues().variantDescription || ""}
-                              onChange={(content) => {
-                                form.setValue("variantDescription", content);
-                              }}
+                            <Textarea
+                              {...field}
+                              rows={5}
+                              className="resize-none"
                             />
                           </FormControl>
                           <FormMessage />
@@ -532,7 +548,6 @@ const ProductDetails: FC<ProductDetailsProps> = ({
                 <InputFieldset label="Category">
                   <div className="flex gap-4">
                     <FormField
-                   
                       control={form.control}
                       name="categoryId"
                       render={({ field }) => (
@@ -567,7 +582,6 @@ const ProductDetails: FC<ProductDetailsProps> = ({
                       )}
                     />
                     <FormField
-                
                       control={form.control}
                       name="subCategoryId"
                       render={({ field }) => (
@@ -604,7 +618,6 @@ const ProductDetails: FC<ProductDetailsProps> = ({
                     />
                     {/* Offer Tag */}
                     <FormField
-               
                       control={form.control}
                       name="offerTagId"
                       render={({ field }) => (
@@ -641,18 +654,17 @@ const ProductDetails: FC<ProductDetailsProps> = ({
               )}
               {/* Brand, Sku, Weight */}
               <InputFieldset
-                label={isNewVariantPage ? "Sku, Weight" : "Brand, Sku, Weight"}
+                label={isNewVariantPage ? "Sku, " : "Marka, Sku, "}
               >
                 <div className="flex flex-col lg:flex-row gap-4">
                   {!isNewVariantPage && (
                     <FormField
-                
                       control={form.control}
                       name="brand"
                       render={({ field }) => (
                         <FormItem className="flex-1">
                           <FormControl>
-                            <Input placeholder="Product brand" {...field} />
+                            <Input placeholder="Marka produktu" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -660,7 +672,6 @@ const ProductDetails: FC<ProductDetailsProps> = ({
                     />
                   )}
                   <FormField
-                   
                     control={form.control}
                     name="sku"
                     render={({ field }) => (
@@ -672,59 +683,10 @@ const ProductDetails: FC<ProductDetailsProps> = ({
                       </FormItem>
                     )}
                   />
-                  <FormField
-                  
-                    control={form.control}
-                    name="weight"
-                    render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <FormControl>
-                          <NumberInput
-                            defaultValue={field.value}
-                            onValueChange={field.onChange}
-                            placeholder="Product weight"
-                            min={0.01}
-                            step={0.01}
-                            className="!shadow-none rounded-md !text-sm"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
                 </div>
               </InputFieldset>
-              {/* Variant image - Keywords*/}
+              {/*   Keywords*/}
               <div className="flex items-center gap-10 py-14">
-                {/* Variant image */}
-                <div className="border-r pr-10">
-                  <FormField
-                    control={form.control}
-                    name="variantImage"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="ml-14">Variant Image</FormLabel>
-                        <FormControl>
-                          <ImageUpload
-                            dontShowPreview
-                            type="profile"
-                            value={field.value.map((image) => image.url)}
-                            disabled={isLoading}
-                            onChange={(url) => field.onChange([{ url }])}
-                            onRemove={(url) =>
-                              field.onChange([
-                                ...field.value.filter(
-                                  (current) => current.url !== url
-                                ),
-                              ])
-                            }
-                          />
-                        </FormControl>
-                        <FormMessage className="!mt-4" />
-                      </FormItem>
-                    )}
-                  />
-                </div>
                 {/* Keywords */}
                 <div className="w-full flex-1 space-y-3">
                   <FormField
@@ -958,147 +920,9 @@ const ProductDetails: FC<ProductDetailsProps> = ({
                 </div>
               </InputFieldset>
               {/* Shipping fee method */}
-              {!isNewVariantPage && (
-                <InputFieldset label="Product shipping fee method">
-                  <FormField
-               
-                    control={form.control}
-                    name="shippingFeeMethod"
-                    render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <Select
-                     
-                          onValueChange={field.onChange}
-                          value={field.value}
-                          defaultValue={field.value}
-                        >
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue
-                                defaultValue={field.value}
-                                placeholder="Select Shipping Fee Calculation method"
-                              />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {shippingFeeMethods.map((method) => (
-                              <SelectItem
-                                key={method.value}
-                                value={method.value}
-                              >
-                                {method.description}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </InputFieldset>
-              )}
+            
               {/* Fee Shipping */}
-              {!isNewVariantPage && (
-                <InputFieldset
-                  label="Free Shipping (Optional)"
-                  description="Free Shipping Worldwide ?"
-                >
-                  <div>
-                    <label
-                      htmlFor="freeShippingForAll"
-                      className="ml-5 flex items-center gap-x-2 cursor-pointer"
-                    >
-                      <FormField
-                        control={form.control}
-                        name="freeShippingForAllCountries"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormControl>
-                              <>
-                                <input
-                                  type="checkbox"
-                                  id="freeShippingForAll"
-                                  checked={field.value}
-                                  onChange={field.onChange}
-                                  hidden
-                                />
-                                <Checkbox
-                                  checked={field.value}
-                                  // @ts-ignore
-                                  onCheckedChange={field.onChange}
-                                />
-                              </>
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-                      <span>Yes</span>
-                    </label>
-                  </div>
-                  <div>
-                    <p className="mt-4 text-sm text-main-secondary dark:text-gray-400 pb-3 flex">
-                      <Dot className="-me-1" />
-                      If not select the countries you want to ship this product
-                      to for free
-                    </p>
-                  </div>
-                  <div className="">
-                    {!form.getValues().freeShippingForAllCountries && (
-                      <div>
-                        <FormField
-                          control={form.control}
-                          name="freeShippingCountriesIds"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormControl>
-                                <MultiSelect
-                                  className="!max-w-[800px]"
-                                  options={countryOptions} // Array of options, each with `label` and `value`
-                                  value={field.value} // Pass the array of objects directly
-                                  onChange={(selected: CountryOption[]) => {
-                                    field.onChange(selected);
-                                  }}
-                                  labelledBy="Select"
-                                />
-                              </FormControl>
-                            </FormItem>
-                          )}
-                        />
-                        <p className="mt-4 text-sm text-main-secondary dark:text-gray-400 pb-3 flex">
-                          <Dot className="-me-1" />
-                          List of countries you offer free shipping for this
-                          product :&nbsp;
-                          {form.getValues().freeShippingCountriesIds &&
-                            form.getValues().freeShippingCountriesIds.length ===
-                              0 &&
-                            "None"}
-                        </p>
-                        {/* Free shipping counties */}
-                        <div className="flex flex-wrap gap-1">
-                          {form
-                            .getValues()
-                            .freeShippingCountriesIds?.map((country, index) => (
-                              <div
-                                key={country.id}
-                                className="text-xs inline-flex items-center px-3 py-1 bg-blue-200 text-blue-primary rounded-md gap-x-2"
-                              >
-                                <span>{country.label}</span>
-                                <span
-                                  className="cursor-pointer hover:text-red-500"
-                                  onClick={() =>
-                                    handleDeleteCountryFreeShipping(index)
-                                  }
-                                >
-                                  x
-                                </span>
-                              </div>
-                            ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </InputFieldset>
-              )}
+           
               <Button type="submit" disabled={isLoading}>
                 {isLoading
                   ? "loading..."

@@ -74,11 +74,11 @@ const ProductPrice: FC<Props> = ({
         </div>
         {!sizeId && !isCard && (
           <div className="text-orange-background text-xs leading-4 mt-1">
-            <span>Note : Select a size to see the exact price</span>
+            <span>Uwaga: Wybierz rozmiar, aby zobaczyć dokładną cenę</span>
           </div>
         )}
         {!sizeId && !isCard && (
-          <p className="mt-2 text-xs">{totalQuantity} pieces</p>
+          <p className="mt-2 text-xs">{totalQuantity} sztuki</p>
         )}
       </div>
     );
@@ -103,15 +103,14 @@ const ProductPrice: FC<Props> = ({
         )}
         {selectedSize.discount > 0 && (
           <span className="inline-block text-orange-seconadry text-xl leading-6">
-            {selectedSize.discount}% off
+            {selectedSize.discount}% zniżki
           </span>
         )}
         <p className="mt-2 text-xs">
-          {weight && <span>{weight}kg - </span>}
           {selectedSize.quantity > 0 ? (
-            `${selectedSize.quantity} items`
+            `${selectedSize.quantity} sztuk`
           ) : (
-            <span className="text-red-500">Out of stock</span>
+            <span className="text-red-500">Brak w magazynie</span>
           )}
         </p>
       </div>

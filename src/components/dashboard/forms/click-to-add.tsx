@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { PaintBucket } from "lucide-react";
 
 // Color picker
-import { SketchPicker } from "react-color";
+import { GithubPicker } from "react-color";
 import { cn } from "@/lib/utils";
 
 // Define the interface for each detail object
@@ -164,14 +164,19 @@ const ClickToAddInputs = <T extends Detail>({
 
               {/* Color picker */}
               {colorPickerIndex === index && property === "color" && (
-                <SketchPicker
+                <GithubPicker
                   color={detail[property] as string}
+                  triangle="hide"
+                  colors={["#000000", "#ffffff", "#008100", "#fa2504"]}
                   onChange={(e) => handleDetailsChange(index, property, e.hex)}
                 />
               )}
 
               {/* Input field for each property */}
-              <Input
+              {
+
+                property !== "color" && (
+                   <Input
                 className={cn("w-28 placeholder:capitalize", inputClassName)}
                 type={typeof detail[property] === "number" ? "number" : "text"}
                 name={property}
@@ -189,6 +194,9 @@ const ClickToAddInputs = <T extends Detail>({
                   )
                 }
               />
+                )
+              }
+             
             </div>
           ))}
           {/* Show buttons for each row of inputs */}

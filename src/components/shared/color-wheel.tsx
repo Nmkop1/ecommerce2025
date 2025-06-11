@@ -9,7 +9,7 @@ const ColorWheel: React.FC<ColorWheelProps> = ({ colors, size }) => {
   const numColors = colors.length;
   const radius = size / 2; // Calculate the radius based on the size
   const sliceAngle = 360 / numColors; // Calculate the angle for each slice of the wheel
-
+ 
   return (
     <svg
       width={size}
@@ -18,7 +18,8 @@ const ColorWheel: React.FC<ColorWheelProps> = ({ colors, size }) => {
       className="shadow-md rounded-full"
     >
       {colors.map((color, index) => {
-        if (numColors === 1) {
+ if (color.name === "") return
+        if (numColors === 1   ) {
           // Special case: Only one color, render a full circle
           return (
             <circle
@@ -31,6 +32,9 @@ const ColorWheel: React.FC<ColorWheelProps> = ({ colors, size }) => {
               strokeWidth="1"
             />
           );
+
+
+
         }
 
         const startAngle = index * sliceAngle;

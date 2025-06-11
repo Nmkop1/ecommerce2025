@@ -14,6 +14,7 @@ import {
   RatingStatisticsType,
   SortOrder,
   VariantImageType,
+  ProductWithVariantTypeEdycja,
   VariantSimplified,
 } from "@/lib/types";
 import { FreeShipping, ProductVariant, Size, Store } from "@prisma/client";
@@ -41,6 +42,7 @@ export const upsertProduct = async (
   product: ProductWithVariantType,
   storeUrl: string
 ) => {
+ 
   try {
     // Retrieve current user
     const user = await currentUser();
@@ -63,7 +65,7 @@ export const upsertProduct = async (
     });
     if (!store) throw new Error("Store not found.");
 
-    // Check if the product already exists
+// Sprawdź czy produkt już istnieje
     const existingProduct = await db.product.findUnique({
       where: { id: product.productId },
     });
@@ -75,7 +77,9 @@ export const upsertProduct = async (
 
     if (existingProduct) {
       if (existingVariant) {
-        // Update existing variant and product
+          // Aktualizuj istniejący wariant i produkt
+       await handleUpdateVariant(product)
+   
       } else {
         // Create new variant
         await handleCreateVariant(product);
@@ -141,9 +145,9 @@ const handleProductCreate = async (
           variantName: product.variantName,
           variantDescription: product.variantDescription,
           slug: variantSlug,
-          variantImage: product.variantImage,
+          variantImage: product.images[0].url  ,
           sku: product.sku,
-          weight: product.weight,
+          weight: 1,
           keywords: product.keywords.join(","),
           isSale: product.isSale,
           saleEndDate: product.saleEndDate,
@@ -197,6 +201,7 @@ const handleProductCreate = async (
   };
 
   const new_product = await db.product.create({ data: productData });
+ 
   return new_product;
 };
 
@@ -220,18 +225,23 @@ const handleCreateVariant = async (product: ProductWithVariantType) => {
     saleEndDate: product.isSale ? product.saleEndDate : "",
     sku: product.sku,
     keywords: product.keywords.join(","),
-    weight: product.weight,
-    variantImage: product.variantImage,
+    weight: 1,
+    variantImage: product.images[0].url ,
     images: {
       create: product.images.map((img) => ({
         url: img.url,
       })),
     },
     colors: {
-      create: product.colors.map((color) => ({
+      create:  product.colors.map((color) => ({
         name: color.color,
-      })),
-    },
+      }))  
+    }  ,
+    // colors: {
+    //   create:product.colors[0].color  === "" ? product.colors.map((color) => ({
+    //     name: color.color,
+    //   })) : null,
+    // }  ,
     sizes: {
       create: product.sizes.map((size) => ({
         size: size.size,
@@ -253,14 +263,62 @@ const handleCreateVariant = async (product: ProductWithVariantType) => {
   const new_variant = await db.productVariant.create({ data: variantData });
   return new_variant;
 };
+const handleUpdateVariant = async (product: ProductWithVariantTypeEdycja ) => {
+  const variantSlug = await generateUniqueSlug(
+    slugify(product.variantName, {
+      replacement: "-",
+      lower: true,
+      trim: true,
+    }),
+    "productVariant"
+  );
 
-// Function: getProductVariant
-// Description: Retrieves details of a specific product variant from the database.
-// Access Level: Public
-// Parameters:
-//   - productId: The id of the product to which the variant belongs.
-//   - variantId: The id of the variant to be retrieved.
-// Returns: Details of the requested product variant.
+  
+
+  const update_variant = await db.productVariant.update({
+    where:  
+      {id: product.variantId },
+         
+      data:  {id: product.variantId,
+        productId: product.productId, 
+        variantName: product.variantName,
+        variantDescription:product.variantDescription,
+        slug: variantSlug,
+        isSale: product.isSale,
+        saleEndDate: product.isSale ? product.saleEndDate : "",       
+        updatedAt: product.updatedAt,   
+      sizes:{
+        deleteMany: {},        
+          create: product.sizes.map((size) => ({
+            size: size.size,
+            price: size.price,
+            quantity: size.quantity,
+            discount: size.discount,
+          })),       
+      }, 
+    },
+      include: {    
+        sizes: {
+          select: {
+            size: true,
+            quantity: true,
+            price: true,
+            discount: true,         
+       
+      },
+    },
+  },
+    });
+
+  return update_variant;
+};
+// Funkcja: getProductVariant
+// Opis: Pobiera szczegóły konkretnego wariantu produktu z bazy danych.
+// Poziom dostępu: Publiczny
+// Parametry:
+// - productId: Identyfikator produktu, do którego należy wariant.
+// - variantId: Identyfikator wariantu, który ma zostać pobrany.
+// Zwraca: Szczegóły żądanego wariantu produktu.
 export const getProductVariant = async (
   productId: string,
   variantId: string
@@ -308,6 +366,7 @@ export const getProductVariant = async (
     categoryId: product.categoryId,
     subCategoryId: product.subCategoryId,
     isSale: product.variants[0].isSale,
+    saleEndDate:product.variants[0].saleEndDate,
     brand: product.brand,
     sku: product.variants[0].sku,
     colors: product.variants[0].colors,

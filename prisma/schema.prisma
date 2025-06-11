@@ -124,7 +124,7 @@ model Product {
   name              String
   description       String            @db.LongText
   slug              String            @unique
-  brand             String
+  brand             String 
   rating            Float             @default(0)
   sales             Int               @default(0)
   numReviews        Int               @default(0)
@@ -162,19 +162,19 @@ model Product {
 
 model ProductVariant {
   id                 String  @id @default(uuid())
-  variantName        String
+  variantName        String?
   variantDescription String? @db.LongText
-  variantImage       String
+  variantImage       String?
   slug               String  @unique
   isSale             Boolean @default(false)
   saleEndDate        String?
-  sku                String
+  sku                String?
   keywords           String
   sales              Int     @default(0)
-  weight             Float
+  weight             Float?
 
   productId String
-  product   Product @relation("ProductToProductVariant", fields: [productId], references: [id])
+  product   Product @relation("ProductToProductVariant", fields: [productId], references: [id], onDelete: Cascade)
 
   sizes    Size[]                @relation("ProductVariantSizes")
   images   ProductVariantImage[] @relation("ProductVariantToVariantImage")
@@ -198,7 +198,7 @@ model Size {
   wishlist Wishlist[] @relation("WishlistToSize")
 
   productVariantId String
-  productVariant   ProductVariant @relation("ProductVariantSizes", fields: [productVariantId], references: [id])
+  productVariant   ProductVariant @relation("ProductVariantSizes", fields: [productVariantId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -213,8 +213,8 @@ model ProductVariantImage {
 
   order Int?
 
-  productVariantId String
-  productVariant   ProductVariant @relation("ProductVariantToVariantImage", fields: [productVariantId], references: [id])
+  productVariantId String?
+  productVariant   ProductVariant? @relation("ProductVariantToVariantImage", fields: [productVariantId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -226,8 +226,8 @@ model Color {
   id   String @id @default(uuid())
   name String
 
-  productVariantId String
-  productVariant   ProductVariant @relation("ProductVariantColors", fields: [productVariantId], references: [id])
+  productVariantId String?
+  productVariant   ProductVariant? @relation("ProductVariantColors", fields: [productVariantId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -270,8 +270,8 @@ model Question {
   question String
   answer   String
 
-  productId String
-  product   Product @relation("ProductQuestion", fields: [productId], references: [id], onDelete: Cascade)
+  productId String?
+  product   Product? @relation("ProductQuestion", fields: [productId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

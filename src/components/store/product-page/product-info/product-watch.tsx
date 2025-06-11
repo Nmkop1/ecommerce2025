@@ -17,7 +17,9 @@ export default function ProductWatch({ productId }: { productId: string }) {
       }
     };
 
-    ws.onopen = () => {};
+    ws.onopen = () => {
+      console.log("server")
+    };
 
     ws.onerror = (error) => {
       setSocket(null);
@@ -37,8 +39,8 @@ export default function ProductWatch({ productId }: { productId: string }) {
         <p className="flex items-center gap-x-1">
           <Eye className="w-4 text-main-secondary" />
           <span>
-            {watcherCount} {watcherCount > 1 ? "people are" : "person is"}
-            &nbsp;watching this product
+            {watcherCount + 16} {watcherCount > 1 ? "osoba" : "osób"}
+            &nbsp;ogląda ten produkt
           </span>
         </p>
       </div>

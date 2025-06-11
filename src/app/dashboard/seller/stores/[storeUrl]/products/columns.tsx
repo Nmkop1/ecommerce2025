@@ -191,10 +191,10 @@ const CellActions: React.FC<CellActionsProps> = ({ productId }) => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+    
           <AlertDialogTrigger asChild>
             <DropdownMenuItem className="flex gap-2" onClick={() => {}}>
-              <Trash size={15} /> Delete product
+              <Trash size={15} /> Usuń produkt
             </DropdownMenuItem>
           </AlertDialogTrigger>
         </DropdownMenuContent>
@@ -202,15 +202,15 @@ const CellActions: React.FC<CellActionsProps> = ({ productId }) => {
       <AlertDialogContent className="max-w-lg">
         <AlertDialogHeader>
           <AlertDialogTitle className="text-left">
-            Are you absolutely sure?
+            Czy jesteś absolutnie pewien?
           </AlertDialogTitle>
           <AlertDialogDescription className="text-left">
-            This action cannot be undone. This will permanently delete the
-            product and variants that exist inside product.
+            Tej czynności nie można cofnąć. Spowoduje to trwałe usunięcie
+            produktu i wariantów, które istnieją w produkcie.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="flex items-center">
-          <AlertDialogCancel className="mb-2">Cancel</AlertDialogCancel>
+          <AlertDialogCancel className="mb-2">Anuluj</AlertDialogCancel>
           <AlertDialogAction
             disabled={loading}
             className="bg-destructive hover:bg-destructive mb-2 text-white"
@@ -218,15 +218,15 @@ const CellActions: React.FC<CellActionsProps> = ({ productId }) => {
               setLoading(true);
               await deleteProduct(productId);
               toast({
-                title: "Deleted product",
-                description: "The product has been deleted.",
+                title: "Produkt usunięty",
+           
               });
               setLoading(false);
               router.refresh();
               setClose();
             }}
           >
-            Delete
+            Usuń
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

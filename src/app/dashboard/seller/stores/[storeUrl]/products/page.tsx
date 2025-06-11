@@ -29,7 +29,7 @@ export default async function SellerProductsPage({
       actionButtonText={
         <>
           <Plus size={15} />
-          Create product
+          Utwórz produkt
         </>
       }
       modalChildren={

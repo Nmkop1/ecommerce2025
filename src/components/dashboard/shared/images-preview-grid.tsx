@@ -25,7 +25,8 @@ const ImagesPreviewGrid: FC<ImagesPreviewGridProps> = ({
   colors,
   setColors,
 }) => {
-  // Calculate the number of images
+  // Oblicz liczbę obrazów
+  
   let imagesLength = images.length;
 
   // Get the grid class name based on the number of images
@@ -72,7 +73,7 @@ const ImagesPreviewGrid: FC<ImagesPreviewGridProps> = ({
       <div className="max-w-4xl">
         <div
           className={cn(
-            "grid h-[800px] overflow-hidden bg-white rounded-md",
+            "grid h-[200px] overflow-hidden bg-white rounded-md",
             GridClassName
           )}
         >
@@ -91,8 +92,8 @@ const ImagesPreviewGrid: FC<ImagesPreviewGridProps> = ({
               <Image
                 src={img.url}
                 alt=""
-                width={800}
-                height={800}
+                width={200}
+                height={200}
                 className="w-full h-full object-cover object-top"
               />
               {/* Actions */}
@@ -105,11 +106,11 @@ const ImagesPreviewGrid: FC<ImagesPreviewGridProps> = ({
                 )}
               >
                 {/* Color palette (Extract colors) */}
-                <ColorPalette
+                {/* <ColorPalette
                   colors={colors}
                   setColors={setColors}
                   extractedColors={colorPalettes[i]}
-                />
+                /> */}
                 {/* Delete Button */}
                 <button
                   className="Btn"
