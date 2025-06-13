@@ -58,13 +58,13 @@ const ProductInfo: FC<Props> = ({
       toast.error("Failed to copy");
     }
   };
-  console.log(variant);
+ 
   return (
     <div className="relative w-full xl:w-[540px]">
       {/* Title */}
       <div>
         <h1 className="text-main-primary inline font-bold leading-5">
-          {name}{" "}
+          {name} 
           {variant.variantName === "" ? null : `- ${variant.variantName}`}
         </h1>
       </div>

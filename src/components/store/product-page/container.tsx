@@ -186,10 +186,10 @@ const ProductPageContainer: FC<Props> = ({
   }, [cartItems, id, variantId, sizeId, stock]);
 
   // Set view cookie
-  setCookie(`viewedProduct_${id}`, "true", {
-    maxAge: 3600,
-    path: "/",
-  });
+  // setCookie(`viewedProduct_${id}`, "true", {
+  //   maxAge:  3600,
+  //   path: "/",
+  // });
 
   const [isFixed, setIsFixed] = useState(false);
   const [offsetLeft, setOffsetLeft] = useState(0); // Holds the calculated left offset

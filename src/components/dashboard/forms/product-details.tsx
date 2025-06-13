@@ -176,7 +176,7 @@ const ProductDetails: FC<ProductDetailsProps> = ({
       variantName: data?.variantName,
       variantDescription: data?.variantDescription,
       images: data?.images || [],
-
+      variantImage: data?.variantImage ? [{ url: data.variantImage }] : [],
       categoryId: data?.categoryId,
       offerTagId: data?.offerTagId,
       subCategoryId: data?.subCategoryId,
@@ -189,7 +189,7 @@ const ProductDetails: FC<ProductDetailsProps> = ({
       keywords: data?.keywords,
       questions: data?.questions,
       isSale: data?.isSale || false,
-
+      weight: data?.weight,
       saleEndDate:
         data?.saleEndDate || format(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
       freeShippingForAllCountries: data?.freeShippingForAllCountries,
@@ -226,7 +226,7 @@ const ProductDetails: FC<ProductDetailsProps> = ({
   // Loading status based on form submission
   const isLoading = form.formState.isSubmitting;
 
-  console.log(form.getValues());
+ 
   // Submit handler for form submission
   const handleSubmit = async (values: z.infer<typeof ProductFormSchema>) => {
     try {
@@ -236,25 +236,25 @@ const ProductDetails: FC<ProductDetailsProps> = ({
           variantId: data?.variantId ? data.variantId : v4(),
           name: values.name,
           description: values.description,
-          variantName: values.variantName ? values.variantName : "",
+          variantName: values.variantName,
           variantDescription: values.variantDescription || "",
           images: values.images,
-
+          variantImage: values.variantImage[0].url,
           categoryId: values.categoryId,
           subCategoryId: values.subCategoryId,
           offerTagId: values.offerTagId || "",
           isSale: values.isSale,
           saleEndDate: values.saleEndDate,
           brand: values.brand,
-          sku: values.sku || "",
-
+          sku: values.sku,
+          weight: values.weight,
           colors: values.colors,
           sizes: values.sizes,
-          product_specs: values.product_specs ? values.product_specs : [],
-          variant_specs: values.variant_specs ? values.variant_specs :[],
+          product_specs: values.product_specs,
+          variant_specs: values.variant_specs,
           keywords: values.keywords,
-          questions: values.questions ? values.questions :[],
-          shippingFeeMethod: "FIXED",
+          questions: values.questions,
+          shippingFeeMethod: values.shippingFeeMethod,
           freeShippingForAllCountries: values.freeShippingForAllCountries,
           freeShippingCountriesIds: values.freeShippingCountriesIds || [],
           createdAt: new Date(),

@@ -78,7 +78,7 @@ export default async function ProductPage({
           <ProductReviews
             productId={data.id}
             rating={data.rating}
-            variantsInfo={data.variants}
+            variantsInfo={data.variants  }
             numReviews={data._count.reviews}
           />
           <>

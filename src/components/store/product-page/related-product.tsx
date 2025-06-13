@@ -13,7 +13,7 @@ export default function RelatedProducts({
 }: {
   productId: string;
   categoryId: string;
-  subCategoryId: string;
+  subCategoryId: any ;
 }) {
   const [products, setProducts] = useState<ProductType[]>([]);
   const [loading, setLoading] = useState<boolean>(false);

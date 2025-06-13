@@ -69,17 +69,16 @@ export type ProductWithVariantType = {
   variantName: string;
   variantDescription: string;
   images: { id?: string; url: string }[];
- 
+  variantImage: string;
   categoryId: string;
-  offerTagId?: string;
-  subCategoryId?: string  ;
+  offerTagId: string;
+  subCategoryId: string;
   isSale: boolean;
- 
   saleEndDate?: string;
-  brand : string;
-  sku?: string;
- 
-  colors: { id?: string; color: string }[]  ;
+  brand: string;
+  sku: string;
+  weight: number;
+  colors: { id?: string; color: string }[];
   sizes: {
     id?: string;
     size: string;
@@ -97,6 +96,8 @@ export type ProductWithVariantType = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+
 // edycji
 export type ProductWithVariantTypeEdycja = {
   productId: string;
@@ -459,12 +460,12 @@ export type ReviewDetailsType = {
   size: string;
   quantity: string;
   variant: string;
-  variantImage: string;
+  variantImage: string ;
   color: string;
 };
 
 export type VariantInfoType = {
-  variantName: string;
+  variantName: string  ;
   variantSlug: string;
   variantImage: string;
   variantUrl: string;
@@ -508,11 +509,11 @@ export type ProductDataType = Prisma.PromiseReturnType<
 >;
 export type ProductVariantDataType = {
   id: string;
-  variantName: string;
+  variantName: string  ;
   slug: string;
-  sku: string;
-  variantImage: string;
-  weight: number;
+  sku: string  ;
+  variantImage: string  ;
+  weight: number  ;
   isSale: boolean;
   saleEndDate: string | null;
   variantDescription: string | null;

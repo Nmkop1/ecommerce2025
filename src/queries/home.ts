@@ -178,7 +178,7 @@ export const getHomeFeaturedCategories = async () => {
       id: true,
       name: true,
       url: true,
-      image: true,
+      // image: true,
       subCategories: {
         where: {
           featured: true,
@@ -187,7 +187,7 @@ export const getHomeFeaturedCategories = async () => {
           id: true,
           name: true,
           url: true,
-          image: true,
+          // image: true,
           _count: {
             select: {
               products: true, // Get the count of products in subcategories
@@ -224,7 +224,7 @@ export const getHomeFeaturedCategories = async () => {
       id: subcategory.id,
       name: subcategory.name,
       url: subcategory.url,
-      image: subcategory.image,
+      // image: subcategory.image,
       productCount: subcategory._count.products,
     })),
   }));

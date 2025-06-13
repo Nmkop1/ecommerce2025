@@ -7,31 +7,10 @@ export default function ProductWatch({ productId }: { productId: string }) {
   const [socket, setSocket] = useState<WebSocket | null>(null);
 
   useEffect(() => {
-    const ws = new WebSocket(`wss:dour-lying-juniper.glitch.me/${productId}`);
-    setSocket(ws);
+    const min = 1;
+    const max = 10;
 
-    ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      if (productId === data.productId) {
-        setWatcherCount(data.count);
-      }
-    };
-
-    ws.onopen = () => {
-      console.log("server")
-    };
-
-    ws.onerror = (error) => {
-      setSocket(null);
-    };
-
-    ws.onclose = () => {
-      setSocket(null);
-    };
-
-    return () => {
-      ws.close();
-    };
+    setWatcherCount  (Math.floor(Math.random() * (max - min + 1) + min));
   }, [productId]);
   if (watcherCount > 0) {
     return (
@@ -39,7 +18,7 @@ export default function ProductWatch({ productId }: { productId: string }) {
         <p className="flex items-center gap-x-1">
           <Eye className="w-4 text-main-secondary" />
           <span>
-            {watcherCount + 16} {watcherCount > 1 ? "osoba" : "osób"}
+            {watcherCount  } {watcherCount > 1 ? "osoba" : "osób"}
             &nbsp;ogląda ten produkt
           </span>
         </p>

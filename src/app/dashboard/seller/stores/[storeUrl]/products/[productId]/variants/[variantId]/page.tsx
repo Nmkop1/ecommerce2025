@@ -1,5 +1,5 @@
 // Product details form
-import ProductDetailsVariants from "@/components/dashboard/forms/product-details-variants";
+// import ProductDetailsVariants from "@/components/dashboard/forms/product-details-variants";
 import { db } from "@/lib/db";
 
 // Queries
@@ -30,13 +30,13 @@ export default async function ProductVariantPage({
   });
   return (
     <div>
-      <ProductDetailsVariants
+      {/* <ProductDetailsVariants
         categories={categories}
         offerTags={offerTags}
         storeUrl={storeUrl}
         data={productDetails}
         countries={countries}
-      />
+      /> */}
     </div>
   );
 }

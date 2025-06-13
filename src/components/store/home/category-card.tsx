@@ -20,7 +20,7 @@ export default function CategoryCard({
         </div>
       </Link>
       <div className="flex gap-x-2 p-4">
-        {category.subCategories.map((sub) => (
+        {category.subCategories.map((sub:any) => (
           <Link
             key={sub.id}
             href={`/browse?subCategory=${sub.url}`}

@@ -45,7 +45,8 @@ export default function ProductCard({ product }: { product: ProductType }) {
             <ProductCardImageSwiper images={images} />
             {/* Title */}
             <div className="text-sm text-main-primary h-[18px] overflow-hidden overflow-ellipsis line-clamp-1">
-              {name} · {variantName}
+              {name}{" "}
+              {variant.variantName === "" ? null : `- ${variant.variantName}`}
             </div>
             {/* Rating - Sales */}
             {product.rating > 0 && product.sales > 0 && (

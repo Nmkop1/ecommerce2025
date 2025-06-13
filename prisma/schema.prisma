@@ -162,16 +162,16 @@ model Product {
 
 model ProductVariant {
   id                 String  @id @default(uuid())
-  variantName        String?
+  variantName        String 
   variantDescription String? @db.LongText
-  variantImage       String?
+  variantImage       String
   slug               String  @unique
   isSale             Boolean @default(false)
   saleEndDate        String?
-  sku                String?
+  sku                String
   keywords           String
   sales              Int     @default(0)
-  weight             Float?
+  weight             Float
 
   productId String
   product   Product @relation("ProductToProductVariant", fields: [productId], references: [id], onDelete: Cascade)

@@ -78,7 +78,7 @@ export const upsertProduct = async (
     if (existingProduct) {
       if (existingVariant) {
           // Aktualizuj istniejący wariant i produkt
-       await handleUpdateVariant(product)
+      //  await handleUpdateVariant(product)
    
       } else {
         // Create new variant
@@ -263,55 +263,55 @@ const handleCreateVariant = async (product: ProductWithVariantType) => {
   const new_variant = await db.productVariant.create({ data: variantData });
   return new_variant;
 };
-const handleUpdateVariant = async (product: ProductWithVariantTypeEdycja ) => {
-  const variantSlug = await generateUniqueSlug(
-    slugify(product.variantName, {
-      replacement: "-",
-      lower: true,
-      trim: true,
-    }),
-    "productVariant"
-  );
+// const handleUpdateVariant = async (product: ProductWithVariantTypeEdycja ) => {
+//   const variantSlug = await generateUniqueSlug(
+//     slugify(product.variantName, {
+//       replacement: "-",
+//       lower: true,
+//       trim: true,
+//     }),
+//     "productVariant"
+//   );
 
   
 
-  const update_variant = await db.productVariant.update({
-    where:  
-      {id: product.variantId },
+//   const update_variant = await db.productVariant.update({
+//     where:  
+//       {id: product.variantId },
          
-      data:  {id: product.variantId,
-        productId: product.productId, 
-        variantName: product.variantName,
-        variantDescription:product.variantDescription,
-        slug: variantSlug,
-        isSale: product.isSale,
-        saleEndDate: product.isSale ? product.saleEndDate : "",       
-        updatedAt: product.updatedAt,   
-      sizes:{
-        deleteMany: {},        
-          create: product.sizes.map((size) => ({
-            size: size.size,
-            price: size.price,
-            quantity: size.quantity,
-            discount: size.discount,
-          })),       
-      }, 
-    },
-      include: {    
-        sizes: {
-          select: {
-            size: true,
-            quantity: true,
-            price: true,
-            discount: true,         
+//       data:  {id: product.variantId,
+//         productId: product.productId, 
+//         variantName: product.variantName,
+//         variantDescription:product.variantDescription,
+//         slug: variantSlug,
+//         isSale: product.isSale,
+//         saleEndDate: product.isSale ? product.saleEndDate : "",       
+//         updatedAt: product.updatedAt,   
+//       sizes:{
+//         deleteMany: {},        
+//           create: product.sizes.map((size) => ({
+//             size: size.size,
+//             price: size.price,
+//             quantity: size.quantity,
+//             discount: size.discount,
+//           })),       
+//       }, 
+//     },
+//       include: {    
+//         sizes: {
+//           select: {
+//             size: true,
+//             quantity: true,
+//             price: true,
+//             discount: true,         
        
-      },
-    },
-  },
-    });
+//       },
+//     },
+//   },
+//     });
 
-  return update_variant;
-};
+//   return update_variant;
+// };
 // Funkcja: getProductVariant
 // Opis: Pobiera szczegóły konkretnego wariantu produktu z bazy danych.
 // Poziom dostępu: Publiczny
@@ -401,7 +401,7 @@ export const getProductMainInfo = async (productId: string) => {
     description: product.description,
     brand: product.brand,
     categoryId: product.categoryId,
-    subCategoryId: product.subCategoryId || undefined,
+    
     offerTagId: product.offerTagId || undefined,
     storeId: product.storeId,
     shippingFeeMethod: product.shippingFeeMethod,

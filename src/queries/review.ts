@@ -5,13 +5,13 @@ import { ReviewDetailsType } from "@/lib/types";
 import { currentUser } from "@clerk/nextjs/server";
 import { getRatingStatistics } from "./product";
 
-// Function: upsertReview
-// Description: Upserts a review into the database, updating if it exists or creating a new one if not.
-// Permission Level: Admin only for creation/updation of reviews.
-// Parameters:
-//   - productId: ID of the product the review is associated with.
-//   - review: Review object containing details of the review to be upserted.
-// Returns: Updated or newly created review details.
+// Funkcja: upsertReview
+// Opis: Wstawia recenzję do bazy danych, aktualizując ją, jeśli istnieje, lub tworząc nową, jeśli nie istnieje.
+// Poziom uprawnień: Tylko administrator do tworzenia/aktualizowania recenzji.
+// Parametry:
+// - productId: Identyfikator produktu, z którym skojarzona jest recenzja.
+// - review: Obiekt recenzji zawierający szczegóły recenzji, która ma zostać wstawiona.
+// Zwraca: Zaktualizowane lub nowo utworzone szczegóły recenzji.
 export const upsertReview = async (
   productId: string,
   review: ReviewDetailsType

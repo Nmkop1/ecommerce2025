@@ -18,7 +18,7 @@ import { use } from "react";
  * @returns An object containing product name, slug, rating, and variants.
  */
 export const retrieveProductDetailsOptimized = async (productSlug: string) => {
-  console.log("productSlug", productSlug);
+ 
   // Fetch the product details from the database
   const product = await db.product.findUnique({
     where: { slug: productSlug },
