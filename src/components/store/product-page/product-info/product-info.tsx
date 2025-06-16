@@ -18,6 +18,7 @@ import ProductVariantSelector from "./variant-selector";
 import SizeSelector from "./size-selector";
 import ProductAssurancePolicy from "./assurance-policy";
 import ProductWatch from "./product-watch";
+import { color } from "framer-motion";
 
 interface Props {
   productData: ProductDataType;
@@ -48,7 +49,7 @@ const ProductInfo: FC<Props> = ({
   // Destructure necessary properties from the productData object
   const { name, store, rating, numReviews, variants } = productData;
   const { isSale, saleEndDate, colors } = variant;
-  console.log("Product Info Rendered", productData);
+  console.log(colors[0].name);
   // Function to copy the SKU to the clipboard
   const copySkuToClipboard = async () => {
     try {
@@ -58,13 +59,13 @@ const ProductInfo: FC<Props> = ({
       toast.error("Failed to copy");
     }
   };
- 
+
   return (
     <div className="relative w-full xl:w-[540px]">
       {/* Title */}
       <div>
         <h1 className="text-main-primary inline font-bold leading-5">
-          {name} 
+          {name}
           {variant.variantName === "" ? null : `- ${variant.variantName}`}
         </h1>
       </div>
@@ -126,12 +127,11 @@ const ProductInfo: FC<Props> = ({
       <Separator className="mt-2" />
       {/* Color wheel - variant switcher */}
 
-      
       <div className="mt-4 space-y-2">
         <div className="relative flex items-center justify-between text-main-primary font-bold">
           <span className="flex items-center gap-x-2">
             {colors.length > 1 ? "Kolory" : "Kolor"}
-            <ColorWheel colors={colors} size={25} />
+            {colors[0].name && <ColorWheel colors={colors} size={25} />}
           </span>
         </div>
         <div className="mt-4">
@@ -161,8 +161,6 @@ const ProductInfo: FC<Props> = ({
       </div>
       {/* Product assurance */}
       <Separator className="mt-2" />
-   
-       
     </div>
   );
 };

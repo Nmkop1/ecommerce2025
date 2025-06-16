@@ -301,12 +301,13 @@ export const ProductFormSchema = z.object({
       message:
         "Product name may only contain letters, numbers, spaces, hyphens, underscores, ampersands, and apostrophes, without consecutive special characters.",
     })
-   */ description: z
+   */ 
+  description: z
     .string({
       required_error: "Product description is mandatory.",
       invalid_type_error: "Product description must be a valid string.",
     })
-    .min(200, {
+    .min(1, {
       message: "Product description should be at least 200 characters long.",
     }),
   variantName: z
@@ -319,14 +320,15 @@ export const ProductFormSchema = z.object({
     })
     .max(100, {
       message: "Product variant name cannot exceed 100 characters.",
-    }),
+    }).optional(),
   /*
     .regex(/^(?!.*(?:[-_ ]){2,})[a-zA-Z0-9_ -]+$/, {
       message:
         "Product variant name may only contain letters, numbers, spaces, hyphens, and underscores, without consecutive special characters.",
     })
      
-       */ variantDescription: z
+       */ 
+    variantDescription: z
     .string({
       required_error: "Product variant description is mandatory.",
       invalid_type_error: "Product variant description must be a valid string.",
@@ -335,12 +337,9 @@ export const ProductFormSchema = z.object({
   images: z
     .object({ url: z.string() })
     .array()
-    .min(3, "Please upload at least 3 images for the product.")
+    .min(1, "Please upload at least 3 images for the product.")
     .max(6, "You can upload up to 6 images for the product."),
-  variantImage: z
-    .object({ url: z.string() })
-    .array()
-    .length(1, "Choose a product variant image."),
+   
   categoryId: z
     .string({
       required_error: "Product category ID is mandatory.",
@@ -352,7 +351,7 @@ export const ProductFormSchema = z.object({
       required_error: "Product sub-category ID is mandatory.",
       invalid_type_error: "Product sub-category ID must be a valid UUID.",
     })
-    .uuid(),
+    .uuid().optional(),
   offerTagId: z
     .string({
       required_error: "Product offer tag ID is mandatory.",
@@ -365,33 +364,31 @@ export const ProductFormSchema = z.object({
       required_error: "Product brand is mandatory.",
       invalid_type_error: "Product brand must be a valid string.",
     })
-    .min(2, {
-      message: "Product brand should be at least 2 characters long.",
-    })
+     
     .max(50, {
       message: "Product brand cannot exceed 50 characters.",
-    }),
+    }).optional(),
   sku: z
     .string({
       required_error: "Product SKU is mandatory.",
       invalid_type_error: "Product SKU must be a valid string.",
     })
-    .min(6, {
+    .min(1, {
       message: "Product SKU should be at least 6 characters long.",
     })
     .max(50, {
       message: "Product SKU cannot exceed 50 characters.",
-    }),
+    }).optional(),
   weight: z.number().min(0.01, {
     message: "Please provide a valid product weight.",
-  }),
+  }).optional(),
   keywords: z
     .string({
       required_error: "Product keywords are mandatory.",
       invalid_type_error: "Keywords must be valid strings.",
     })
     .array()
-    .min(5, {
+    .min(1, {
       message: "Please provide at least 5 keywords.",
     })
     .max(10, {
@@ -401,9 +398,10 @@ export const ProductFormSchema = z.object({
     .object({ color: z.string() })
     .array()
     .min(1, "Please provide at least one color.")
-    .refine((colors) => colors.every((c) => c.color.length > 0), {
-      message: "All color inputs must be filled.",
-    }),
+    // .refine((colors) => colors.every((c) => c.color.length > 0), {
+    //   message: "All color inputs must be filled.",
+    // })
+    .optional(),
   sizes: z
     .object({
       size: z.string(),
@@ -429,13 +427,14 @@ export const ProductFormSchema = z.object({
     })
     .array()
     .min(1, "Please provide at least one product spec.")
-    .refine(
-      (product_specs) =>
-        product_specs.every((s) => s.name.length > 0 && s.value.length > 0),
-      {
-        message: "All product specs inputs must be filled correctly.",
-      }
-    ),
+    // .refine(
+    //   (product_specs) =>
+    //     product_specs.every((s) => s.name.length > 0 && s.value.length > 0),
+    //   {
+    //     message: "All product specs inputs must be filled correctly.",
+    //   }
+    // )
+    .optional(),
   variant_specs: z
     .object({
       name: z.string(),
@@ -443,13 +442,14 @@ export const ProductFormSchema = z.object({
     })
     .array()
     .min(1, "Please provide at least one product variant spec.")
-    .refine(
-      (product_specs) =>
-        product_specs.every((s) => s.name.length > 0 && s.value.length > 0),
-      {
-        message: "All product variant specs inputs must be filled correctly.",
-      }
-    ),
+    // .refine(
+    //   (product_specs) =>
+    //     product_specs.every((s) => s.name.length > 0 && s.value.length > 0),
+    //   {
+    //     message: "All product variant specs inputs must be filled correctly.",
+    //   }
+    // )
+    .optional(),
   questions: z
     .object({
       question: z.string(),
@@ -457,13 +457,14 @@ export const ProductFormSchema = z.object({
     })
     .array()
     .min(1, "Please provide at least one product question.")
-    .refine(
-      (questions) =>
-        questions.every((q) => q.question.length > 0 && q.answer.length > 0),
-      {
-        message: "All product question inputs must be filled correctly.",
-      }
-    ),
+    // .refine(
+    //   (questions) =>
+    //     questions.every((q) => q.question.length > 0 && q.answer.length > 0),
+    //   {
+    //     message: "All product question inputs must be filled correctly.",
+    //   }
+    // )
+    .optional(),
   isSale: z.boolean().default(false),
   saleEndDate: z.string().optional(),
   freeShippingForAllCountries: z.boolean().default(false),
@@ -472,6 +473,7 @@ export const ProductFormSchema = z.object({
       id: z.string().optional(),
       label: z.string(),
       value: z.string(),
+
     })
     .array()
     .optional()
@@ -480,7 +482,7 @@ export const ProductFormSchema = z.object({
       "Each country must have a valid name and ID."
     )
     .default([]),
-  shippingFeeMethod: z.nativeEnum(ShippingFeeMethod),
+  
 });
 
 

@@ -13,7 +13,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-
+ 
 // Icons
 import { icons } from "@/constants/icons";
 
@@ -34,7 +34,8 @@ export default function SidebarNavSeller({
 
   return (
     <nav className="relative grow">
-      <Command className="rounded-lg overflow-visible bg-transparent">
+       
+       <Command className="rounded-lg overflow-visible bg-transparent">
    
         <CommandList className="py-2 overflow-visible">
           <CommandEmpty>No Links Found.</CommandEmpty>
@@ -66,7 +67,7 @@ export default function SidebarNavSeller({
             })}
           </CommandGroup>
         </CommandList>
-      </Command>
+      </Command>  
     </nav>
   );
 }
